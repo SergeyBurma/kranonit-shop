@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+
+{% block title %}Shop{% endblock %}
+
+{% block body %}
+    <div class="row">
+        {% for category in categories %}
+            {% if selected_category == category %}<b>{% endif %}
+            <a href="{% url 'products' category.id %}">{{ category }}</a>
+            {% if selected_category == category %}</b>{% endif %}
+        {% endfor %}
+    </div>
+    {% for product in products %}
+        {% if not forloop.counter|divisibleby:"2" %}
+            <div class="row">
+        {% endif %}
+            <div class="six columns">
+                <div>
+                    <img width="100px;" src="{{ product.image.url }}" alt="{{ product }}">
+                </div>
+                <div>
+                    <a href="{% url 'product' product.id %}"><h4>{{ product }}</h4></a>
+                </div>
+                <div>
+                    {{ product.price }}$
+                </div>
+                <form action="{% url 'add_to_cart' %}" method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="product" value="{{ product.id }}">
+                    <input type="submit" value="Add to cart">
+                </form>                
+            </div>
+        {% if forloop.counter|divisibleby:"2" %}
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endblock %}

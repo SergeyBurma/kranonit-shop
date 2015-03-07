@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}Cart{% endblock %}
+
+{% block body %}   
+    <form action="{% url 'cart' %}" method="post">
+        {% csrf_token %}
+        <div class="row">
+            {{ form.as_ul }}
+            <input type="submit" value="Update order">
+        </div>
+        <div class="row">
+            {{ formset.management_form }}
+            {% for position_form in formset %}
+                <h4>{{ position_form.instance.product }}</h4>
+                {{ position_form.as_ul }}
+            {% endfor %}
+        </div>
+        <input type="submit" value="Update order">
+    </form>
+    <div class="row">
+        <form action="{% url 'finish' %}">
+            {% csrf_token %}
+            <input type="submit" value="Finish order">
+        </form>
+    </div>
+{% endblock %}

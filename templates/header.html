@@ -1,0 +1,6 @@
+<div class="row">
+    <a href="{% url 'about' %}">About us</a>
+    Cart: {% if order %}
+        <a href="{% url 'cart' %}">{{ order.price }}$</a> 
+    {% else %}empty{% endif %}
+</div>
